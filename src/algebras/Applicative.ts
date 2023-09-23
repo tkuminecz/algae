@@ -1,3 +1,3 @@
 export interface Applicative<A> {
-    of(): Applicative<A>
+  of(a: A): Applicative<A>;
 }

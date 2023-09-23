@@ -35,6 +35,6 @@ describe("Maybe", () => {
 
   test("monad", () => {
     const maybeStr = Maybe.Some("Hello world");
-    testMonad(Maybe, maybeStr, (_a: string) => Maybe.None(), "yo");
+    testMonad(Maybe, maybeStr, "yo", (_a: string) => Maybe.None<number>());
   });
 });

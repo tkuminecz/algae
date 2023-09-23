@@ -34,8 +34,8 @@ export abstract class Either<L, R> implements Functor<R>, Monad<R> {
     });
   }
 
-  ap<U>(b: Either<L, (t: R) => U>): Either<L, U> {
-    return b.chain((f) => this.map(f));
+  ap<U>(ef: Either<L, (r: R) => U>): Either<L, U> {
+    return ef.chain((f) => this.map(f));
   }
 
   map<B>(f: (a: R) => B): Either<L, B> {
@@ -45,7 +45,7 @@ export abstract class Either<L, R> implements Functor<R>, Monad<R> {
     });
   }
 
-  chain<U>(next: (t: R) => Either<L, U>): Either<L, U> {
+  chain<U>(next: (r: R) => Either<L, U>): Either<L, U> {
     return this.match({
       Left: (left) => Either.Left(left),
       Right: (right) => next(right),
