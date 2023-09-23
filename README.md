@@ -1,2 +1,2 @@
 # algae
-Algebraic types for Typescript
+Algebraic types for TypeScript
