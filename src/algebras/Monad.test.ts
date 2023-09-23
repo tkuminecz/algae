@@ -1,16 +1,14 @@
 import { Monad } from "./Monad";
 
-export function testLeftIdentity<A, B>(
+export function testMonad<A, B>(
   M: { of(a: A): Monad<A> },
+  ma: Monad<A>,
   f: (a: A) => Monad<B>,
   a: A
 ) {
+  // Test left identity
   expect(M.of(a).chain(f)).toEqual(f(a));
-}
 
-export function testRightIdentity<A>(
-  M: { of<A>(a: A): Monad<A> },
-  ma: Monad<A>
-) {
+  // Test right identity
   expect(ma.chain(M.of)).toEqual(ma);
 }

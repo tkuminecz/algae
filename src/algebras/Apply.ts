@@ -1,5 +1,5 @@
 import { Functor } from "./Functor";
 
-export interface Apply<T> extends Functor<T> {
-  ap<U>(b: Apply<(t: T) => U>): Apply<U>;
+export interface Apply<A> extends Functor<A> {
+  ap<B>(f: Apply<(a: A) => B>): Apply<B>;
 }

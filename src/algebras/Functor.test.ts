@@ -1,13 +1,13 @@
 import { Functor } from "./Functor";
 
-export function testIdentity<A>(fa: Functor<A>) {
-  expect(fa.map((a) => a)).toEqual(fa);
-}
-
-export function testComposition<A>(
+export function testFunctor<A, B, C>(
   fa: Functor<A>,
-  f: (a: A) => A,
-  g: (a: A) => A
+  f: (a: A) => B,
+  g: (b: B) => C
 ) {
-  expect(fa.map((a) => f(g(a)))).toEqual(fa.map(g).map(f));
+  // Test identity
+  expect(fa.map((a) => a)).toEqual(fa);
+
+  // Test composition
+  expect(fa.map((a) => g(f(a)))).toEqual(fa.map(f).map(g));
 }

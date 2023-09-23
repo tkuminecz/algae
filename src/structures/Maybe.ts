@@ -3,11 +3,11 @@ import { Functor } from "../algebras/Functor";
 import { Monad } from "../algebras/Monad";
 
 export abstract class Maybe<A> implements Functor<A>, Monad<A> {
-  static Some<A>(a: A) {
+  static Some<A>(a: A): Maybe<A> {
     return new Some(a);
   }
 
-  static None<A>() {
+  static None<A>(): Maybe<A> {
     return new None<A>();
   }
 
@@ -17,15 +17,26 @@ export abstract class Maybe<A> implements Functor<A>, Monad<A> {
 
   abstract match<B>(cases: { Some: (a: A) => B; None: () => B }): B;
 
-  ap<B>(mf: Maybe<(a: A) => B>): Maybe<B> {
-    return mf.match({
-      Some: (f) =>
-        this.match({
-          Some: (a) => Maybe.Some(f(a)),
-          None: () => Maybe.None(),
-        }),
-      None: () => Maybe.None(),
+  isSome(): boolean {
+    return this.match({
+      Some: () => true,
+      None: () => false,
     });
+  }
+
+  isNone(): boolean {
+    return !this.isSome();
+  }
+
+  getOrElse(defaultValue: A): A {
+    return this.match({
+      Some: (a) => a,
+      None: () => defaultValue,
+    });
+  }
+
+  ap<B>(mf: Maybe<(a: A) => B>): Maybe<B> {
+    return mf.chain((f) => this.map(f));
   }
 
   map<B>(f: (a: A) => B): Maybe<B> {
